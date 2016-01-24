@@ -43,7 +43,7 @@ def noun_prob_of_blank(sent):  # is blank Noun?
         if (sent.blank_i < i) and \
             ('NN' not in [s[1] for s in sent.tagged_sent_S[:i]] \
             or 'PRP' not in [s[1] for s in sent.tagged_sent_S[:i]]):
-            p += 10
+            p += 8
             
     elif len([s for s in sent.tagged_sent_T if "VB" in s[1]])!= 0:
         for s in sent.tagged_sent_T:
@@ -53,16 +53,16 @@ def noun_prob_of_blank(sent):  # is blank Noun?
         if (sent.blank_i < i) and \
             ('NN' not in [s[1] for s in sent.tagged_sent_T[:i]] \
             or 'PRP' not in [s[1] for s in sent.tagged_sent_T[:i]]):
-            p += 10
+            p += 8
         
     if len(sent.post_blank)>0:
         if (sent.post_blank[0][0] in ['is','am','are','was','were','be']):
-            p += 3
+            p += 4
         if (sent.post_blank[0][0] in IN):
             p += 1
     if len(sent.pre_blank)>1:
         if (sent.pre_blank[1][1] in ["ADJ" ,"JJ"]):
-            p += 1
+            p += 2
         if (sent.pre_blank[1][0]=="'s"):
             p += 5
         if (sent.pre_blank[1][0] in ['is','am','are','was','were','be']):
@@ -75,7 +75,7 @@ def verb_prob_of_blank(sent):    # is blank verb?
     p = 0
     if (len([s for s in sent.tagged_sent_S if "VB" in s[1]])==0
         and len([s for s in sent.tagged_sent_T if "VB" in s[1] and s[0]=="T"])!=0):
-        p += 20
+        p += 15
     elif len([s for s in sent.tagged_sent_S if "VB" in s[1]])==0:
         p += 1
     if len(sent.post_blank)>0:
@@ -84,9 +84,9 @@ def verb_prob_of_blank(sent):    # is blank verb?
             p += 4
     if len(sent.pre_blank)>1:        
         if ("PRP" in sent.pre_blank[1]):
-            p += 7
-        if (sent.pre_blank[1][0]=="to"):
             p += 5
+        if (sent.pre_blank[1][0]=="to"):
+            p += 3
         if (sent.pre_blank[1][0] in ['is','am','are','was','were']):
             p += 1
     return p
@@ -106,7 +106,7 @@ def adj_prob_of_blank(sent):   # is blank Adjective?
     p = 0
     if len(sent.post_blank)>0:
         if ("NN" in sent.post_blank[0][1]):
-            p += 4
+            p += 5
     if len(sent.pre_blank)>1:
         if (sent.pre_blank[1][0] in ['is','am','are','was','were']):
             p += 2

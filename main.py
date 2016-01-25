@@ -6,6 +6,7 @@ from nltk.collocations import *
 from copy import deepcopy as cpy
 import os.path
 import gensim, logging
+import language_check
 
 class Sentence:
     def __init__(self, text):
@@ -148,7 +149,6 @@ for t in types:
         most_prob = t
         prob = Sent.blank_tag_prob(t)
 
-
 answers = []
 trigram_measures = nltk.collocations.TrigramAssocMeasures()
 finder = nltk.collocations.TrigramCollocationFinder.from_words(nltk.corpus.brown.words())
@@ -203,6 +203,9 @@ for i in answers:
         if nltk.pos_tag(j)[1] in signs[most_prob]:
             answers.append(j)
 
+tool = language_check.LanguageTool('en-US')
 text = Sent.text
 for i in answers:
-    print(text.replace('$',i))
+    t = text.replace('$',i)
+    matches = tool.check(t)
+    print(language_check.correct(t, matches))

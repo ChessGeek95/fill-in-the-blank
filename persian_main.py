@@ -31,10 +31,10 @@ class Sentence:
 
 def noun_prob_of_blank(sent):  # is blank Noun?
     p = 0
-	if "N" in sent.tagged_sent_T[blank_i][1]:
-		p+= 15
-	if len(tree2brackets(sent.tagged_sent_T)) != len(tree2brackets(sent.tagged_sent_T)):
-		p+= 12
+    if "N" in sent.tagged_sent_T[blank_i][1]:
+	p+= 15
+    if len(tree2brackets(sent.tagged_sent_T)) != len(tree2brackets(sent.tagged_sent_T)):
+	p+= 12
     if len([s for s in sent.tagged_sent_T if "V" in s[1]])== 0:
         p-=10
     return p
@@ -42,28 +42,28 @@ def noun_prob_of_blank(sent):  # is blank Noun?
 def verb_prob_of_blank(sent):    # is blank verb?
     p = 0
     if len([s for s in sent.tagged_sent_T if "V" in s[1]])== 0 or \
-		len([s for s in sent.tagged_sent_S if "V" in s[1]])== 0:
-		p+=5
-	if len([s for s in sent.tagged_sent_T if "V" in s[1]])== 0 and \
-		len([s for s in sent.tagged_sent_S if "V" in s[1]])== 0:
-        p+=10
+	len([s for s in sent.tagged_sent_S if "V" in s[1]])== 0:
+	p+=5
+    if len([s for s in sent.tagged_sent_T if "V" in s[1]])== 0 and \
+	len([s for s in sent.tagged_sent_S if "V" in s[1]])== 0:
+    	p+=10
     return p
 
 def adv_prob_of_blank(sent):   # is blank Adverb?
     p = 0
-	if len(tree2brackets(sent.tagged_sent_T)) == len(tree2brackets(sent.tagged_sent_S)):
-		p+= 3
+    if len(tree2brackets(sent.tagged_sent_T)) == len(tree2brackets(sent.tagged_sent_S)):
+	p+= 3
     if sent.blank_i == 0 or sent.blank_i == len(sent.tagged_sent_S)-1:
         p+=2
-	if len(tree2brackets(tagger.tag(word_tokenize(sent.tagged_sent_S.replace('$','')))))\
-		== len(tree2brackets(sent.tagged_sent_T)):
-		p+=4
+    if len(tree2brackets(tagger.tag(word_tokenize(sent.tagged_sent_S.replace('$','')))))\
+	== len(tree2brackets(sent.tagged_sent_T)):
+	p+=4
     return p
         
 def adj_prob_of_blank(sent):   # is blank Adjective?
     p = 0
-	if len(tree2brackets(sent.tagged_sent_T)) == len(tree2brackets(sent.tagged_sent_S)):
-		p+= 5
+    if len(tree2brackets(sent.tagged_sent_T)) == len(tree2brackets(sent.tagged_sent_S)):
+	p+= 5
     if len(sent.pre_blank)>0:
         if ("N" in sent.pre_blank[0][1]):
             p += 3
